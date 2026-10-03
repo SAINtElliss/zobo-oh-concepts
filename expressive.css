@@ -60,3 +60,4 @@ header,header.is-scrolled{background:transparent!important;box-shadow:none!impor
 .hero .hero-trio{height:320px}.hero .hero-trio img{animation-duration:11s}.hero .hero-trio img:nth-child(1){transform:rotate(-25deg)!important;animation-delay:-3s}.hero .hero-trio img:nth-child(2){transform:rotate(-14deg)!important;animation-delay:-7s}.hero .hero-trio img:nth-child(3){transform:rotate(10deg)!important;animation-delay:-1s}
 @keyframes hero-bottle-sway{0%,100%{rotate:-6deg;translate:0 0}50%{rotate:6deg;translate:0 -12px}}
 @media(max-width:700px){.hero-cta{top:325px}.hero .hero-trio{height:340px}}
+.hero .hero-trio img:nth-child(2){top:30px}
