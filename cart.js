@@ -40,3 +40,5 @@ optionCheckout.onclick=async()=>{
  finally{cartAnimating=false;optionCheckout.disabled=false}
 };
 const stickyNav=document.querySelector('header');function updateStickyNav(){stickyNav.classList.toggle('is-scrolled',scrollY>30)}addEventListener('scroll',updateStickyNav,{passive:true});updateStickyNav();
+// Replace action arrow glyphs with the supplied brand icon.
+document.querySelectorAll('.button,.text-link').forEach(control=>{const walker=document.createTreeWalker(control,NodeFilter.SHOW_TEXT);const texts=[];while(walker.nextNode())texts.push(walker.currentNode);texts.forEach(node=>{if(!node.textContent.includes('↗'))return;const parts=node.textContent.split('↗'),fragment=document.createDocumentFragment();parts.forEach((part,index)=>{fragment.append(document.createTextNode(part));if(index<parts.length-1){const icon=document.createElement('span');icon.className='action-arrow';icon.setAttribute('aria-hidden','true');fragment.append(icon)}});node.replaceWith(fragment)})});
