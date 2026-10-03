@@ -15,21 +15,24 @@ const addFeedback=document.createElement('p');addFeedback.setAttribute('role','s
 let cartAnimating=false;
 async function animateAddToBag(){
  if(cartAnimating)return;cartAnimating=true;$('option-add').disabled=true;optionCheckout.disabled=true;
- const rect=popup.getBoundingClientRect(),target=document.querySelector('.bag-icon').getBoundingClientRect();
- const circle=document.createElement('div');circle.className='cart-flight';circle.style.background=flavours[selectedFlavour].color;circle.style.left=(rect.left+rect.width/2-24)+'px';circle.style.top=(rect.top+rect.height/2-24)+'px';
+ const rect=popup.getBoundingClientRect(),color=flavours[selectedFlavour].color,cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+ const circle=document.createElement('div');circle.className='cart-flight';circle.style.background=color;circle.style.left=(cx-24)+'px';circle.style.top=(cy-24)+'px';
+ const originalStyle=popup.getAttribute('style');const animations=[];
  try{
  if(!reduced){
- await popup.animate([{transform:'scale(1)',opacity:1,borderRadius:'24px'},{transform:'scale(.12)',opacity:0,borderRadius:'50%'}],{duration:340,easing:'cubic-bezier(.4,0,.8,.4)'}).finished;
+ Object.assign(popup.style,{position:'fixed',margin:'0',left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px',minHeight:'0',maxHeight:'none',boxSizing:'border-box',overflow:'hidden'});
+ [...popup.children].forEach(child=>animations.push(child.animate([{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(14px)'}],{duration:420,easing:'ease-in',fill:'forwards'})));
+ const morph=popup.animate([{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px',padding:'30px',borderRadius:'24px',background:getComputedStyle(popup).backgroundColor},{left:(cx-24)+'px',top:(cy-24)+'px',width:'48px',height:'48px',padding:'0px',borderRadius:'50%',background:color}],{duration:650,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});animations.push(morph);await morph.finished;
+ await new Promise(resolve=>setTimeout(resolve,220));
  }
- popup.close();document.body.append(circle);
+ document.body.append(circle);popup.close();animations.forEach(a=>a.cancel());if(originalStyle===null)popup.removeAttribute('style');else popup.setAttribute('style',originalStyle);
  if(!reduced){
- const dx=target.left+target.width/2-(rect.left+rect.width/2),dy=target.top+target.height/2-(rect.top+rect.height/2);
- await circle.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+dx*.55+'px,'+(dy-70)+'px) scale(.8)',opacity:1,offset:.65},{transform:'translate('+dx+'px,'+dy+'px) scale(.1)',opacity:0}],{duration:650,easing:'cubic-bezier(.3,.6,.3,1)'}).finished;
- await $('open-bag').animate([{transform:'scale(1)'},{transform:'scale(1.2) rotate(-7deg)',offset:.4},{transform:'scale(.95) rotate(4deg)',offset:.7},{transform:'scale(1)'}],{duration:400}).finished;
+ const target=document.querySelector('.bag-icon').getBoundingClientRect(),dx=target.left+target.width/2-cx,dy=target.top+target.height/2-cy;
+ const flight=circle.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+dx*.55+'px,'+(dy*.55-45)+'px) scale(.85)',opacity:1,offset:.55},{transform:'translate('+dx+'px,'+dy+'px) scale(.15)',opacity:0}],{duration:700,easing:'cubic-bezier(.4,0,.25,1)',fill:'forwards'});await flight.finished;
+ await $('open-bag').animate([{transform:'scale(1)'},{transform:'scale(1.16) rotate(-5deg)',offset:.4},{transform:'scale(1)'}],{duration:350}).finished;
  }
- addFeedback.textContent=flavours[selectedFlavour].label+' added to your cart.';
- setTimeout(()=>addFeedback.textContent='',3200);
- }finally{circle.remove();cartAnimating=false;$('option-add').disabled=false;optionCheckout.disabled=false}
+ addFeedback.textContent=flavours[selectedFlavour].label+' added to your cart.';setTimeout(()=>addFeedback.textContent='',3200);
+ }finally{circle.remove();animations.forEach(a=>a.cancel());if(originalStyle===null)popup.removeAttribute('style');else popup.setAttribute('style',originalStyle);cartAnimating=false;$('option-add').disabled=false;optionCheckout.disabled=false}
 }
 optionCheckout.onclick=async()=>{
  if(cartAnimating)return;cartAnimating=true;optionCheckout.disabled=true;
