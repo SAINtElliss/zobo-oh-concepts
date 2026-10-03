@@ -31,3 +31,6 @@ footer .footer-logo{width:64px;background:var(--cream);-webkit-mask:url('assets/
 
 /* Uppercase pill navigation. */
 header nav{gap:12px}header nav a{display:inline-flex;align-items:center;justify-content:center;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:10px 18px;line-height:1.2;white-space:nowrap;transition:background .2s,color .2s}header nav a:hover{background:var(--plum);color:var(--yellow);border-color:var(--plum)}header nav a:after{display:none}@media(max-width:700px){header nav{gap:6px}header nav a{font-size:.6rem;padding:8px 9px}header nav a:last-child{display:none}}
+
+/* Supplied chevrons for the flavour controls. */
+.flavour-controls button{display:flex;align-items:center;justify-content:center}.flavour-controls button .flavour-arrow{display:block;width:18px;height:18px;background:currentColor;-webkit-mask:url('assets/right-arrow.png') center/contain no-repeat;mask:url('assets/right-arrow.png') center/contain no-repeat}.flavour-controls button .flavour-arrow-previous{transform:rotate(180deg)}
