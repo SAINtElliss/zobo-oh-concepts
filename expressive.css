@@ -22,3 +22,9 @@ header .logo{width:54px}.hero{min-height:920px;height:920px;max-height:none;padd
 /* Reference-style bag label and supplied basket icon. */
 header .bag{display:flex;gap:12px;align-items:center;min-height:44px;padding:8px 0;font-size:1rem;font-weight:400;letter-spacing:.04em}header .bag span{border:0;border-radius:0;width:auto;height:auto;display:inline}header .bag .bag-label{white-space:nowrap}header .bag-icon{width:30px;height:30px;object-fit:contain;filter:brightness(0) saturate(100%) invert(7%) sepia(70%) saturate(2450%) hue-rotate(308deg)}
 @media(max-width:700px){header .bag{font-size:.8rem;gap:8px}header .bag-icon{width:25px;height:25px}}
+
+/* Keep the introduction balanced after removing the handwritten tagline. */
+.story-bottom{grid-template-columns:2fr 1fr}.story-bottom .text-link{grid-column:auto}@media(max-width:700px){.story-bottom{grid-template-columns:1fr}}
+
+/* Smaller beige footer mark, retaining the original logo silhouette. */
+footer .footer-logo{width:64px;background:var(--cream);-webkit-mask:url('assets/logo.webp') center/contain no-repeat;mask:url('assets/logo.webp') center/contain no-repeat}footer .footer-logo img{opacity:0}@media(max-width:700px){footer .footer-logo{width:54px}}
