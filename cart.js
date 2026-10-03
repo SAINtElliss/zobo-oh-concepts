@@ -7,5 +7,33 @@ function estimate(){const quantity=Math.max(1,Math.min(50,Math.floor(Number($('o
 $('expressive-add').onclick=()=>{selectedFlavour=current;$('option-title').textContent=flavours[current].label;popup.style.setProperty('--option-color',flavours[current].color);$('option-quantity').value=1;$('option-sweetness').value=3;estimate();popup.showModal()};$('close-options').onclick=()=>popup.close();['option-quantity','option-sweetness'].forEach(id=>$(id).oninput=estimate);
 const subtotal=document.createElement('div');subtotal.className='option-total';$('bag-items').after(subtotal);const checkout=document.createElement('button');checkout.className='button';checkout.textContent='Continue to checkout ↗';subtotal.after(checkout);const notice=document.createElement('p');notice.className='option-note';notice.setAttribute('role','status');checkout.after(notice);checkout.onclick=()=>notice.textContent='Checkout preview: secure online payment will be connected after pricing, delivery and terms are confirmed. No payment has been taken.';
 renderBag=function(){const total=lines.reduce((sum,l)=>sum+l.quantity,0);$('bag-count').textContent=total;$('open-bag').setAttribute('aria-label',`Open bag, ${total} bottles`);$('bag-items').replaceChildren();if(!total)$('bag-items').textContent='Your cart is waiting for something good.';lines.forEach((line,index)=>{const row=document.createElement('div');row.className='configured-line';const title=document.createElement('strong');title.textContent=flavours[line.flavour].label;const detail=document.createElement('p');detail.textContent=`${line.ml} · Sweetness ${line.sweetness}/5 · ${cash(line.price)} each`;const controls=document.createElement('div');controls.className='quantity-controls';[-1,1].forEach(delta=>{const b=document.createElement('button');b.textContent=delta<0?'−':'+';b.setAttribute('aria-label',`${delta<0?'Remove':'Add'} one ${flavours[line.flavour].label}, ${line.ml}, sweetness ${line.sweetness}`);b.onclick=()=>{line.quantity+=delta;if(!line.quantity)lines.splice(index,1);renderBag()};controls.append(b);if(delta<0){const n=document.createElement('span');n.textContent=line.quantity;controls.append(n)}});row.append(title,detail,controls);$('bag-items').append(row)});subtotal.textContent='Estimated subtotal: '+cash(lines.reduce((sum,l)=>sum+l.quantity*l.price,0));checkout.disabled=!total};
-$('option-add').onclick=()=>{const {quantity,size}=estimate(),sweetness=Number($('option-sweetness').value);const existing=lines.find(l=>l.flavour===selectedFlavour&&l.ml===size.ml&&l.sweetness===sweetness);if(existing)existing.quantity+=quantity;else lines.push({flavour:selectedFlavour,ml:size.ml,price:size.price,sweetness,quantity});renderBag();popup.close();openBag()};$('footer-order').textContent='Your cart';renderBag();
+$('option-add').onclick=()=>{const {quantity,size}=estimate(),sweetness=Number($('option-sweetness').value);const existing=lines.find(l=>l.flavour===selectedFlavour&&l.ml===size.ml&&l.sweetness===sweetness);if(existing)existing.quantity+=quantity;else lines.push({flavour:selectedFlavour,ml:size.ml,price:size.price,sweetness,quantity});renderBag();animateAddToBag()};$('footer-order').textContent='Your cart';renderBag();
  popup.querySelectorAll('input[name=bottle-size]').forEach(input=>input.onchange=()=>{selectedSize=Number(input.value);estimate()});['quantity-minus','quantity-plus'].forEach((id,index)=>$(id).onclick=()=>{$('option-quantity').value=Number($('option-quantity').value)+(index?1:-1);estimate()});
+// Keep the two actions distinct: add flies to the bag; checkout opens the cart.
+const optionCheckout=document.createElement('button');optionCheckout.id='option-checkout';optionCheckout.className='text-link';optionCheckout.textContent='Check out ↗';$('option-add').after(optionCheckout);
+const addFeedback=document.createElement('p');addFeedback.setAttribute('role','status');addFeedback.className='add-feedback';document.body.append(addFeedback);
+let cartAnimating=false;
+async function animateAddToBag(){
+ if(cartAnimating)return;cartAnimating=true;$('option-add').disabled=true;optionCheckout.disabled=true;
+ const rect=popup.getBoundingClientRect(),target=document.querySelector('.bag-icon').getBoundingClientRect();
+ const circle=document.createElement('div');circle.className='cart-flight';circle.style.background=flavours[selectedFlavour].color;circle.style.left=(rect.left+rect.width/2-24)+'px';circle.style.top=(rect.top+rect.height/2-24)+'px';
+ try{
+ if(!reduced){
+ await popup.animate([{transform:'scale(1)',opacity:1,borderRadius:'24px'},{transform:'scale(.12)',opacity:0,borderRadius:'50%'}],{duration:340,easing:'cubic-bezier(.4,0,.8,.4)'}).finished;
+ }
+ popup.close();document.body.append(circle);
+ if(!reduced){
+ const dx=target.left+target.width/2-(rect.left+rect.width/2),dy=target.top+target.height/2-(rect.top+rect.height/2);
+ await circle.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+dx*.55+'px,'+(dy-70)+'px) scale(.8)',opacity:1,offset:.65},{transform:'translate('+dx+'px,'+dy+'px) scale(.1)',opacity:0}],{duration:650,easing:'cubic-bezier(.3,.6,.3,1)'}).finished;
+ await $('open-bag').animate([{transform:'scale(1)'},{transform:'scale(1.2) rotate(-7deg)',offset:.4},{transform:'scale(.95) rotate(4deg)',offset:.7},{transform:'scale(1)'}],{duration:400}).finished;
+ }
+ addFeedback.textContent=flavours[selectedFlavour].label+' added to your cart.';
+ setTimeout(()=>addFeedback.textContent='',3200);
+ }finally{circle.remove();cartAnimating=false;$('option-add').disabled=false;optionCheckout.disabled=false}
+}
+optionCheckout.onclick=async()=>{
+ if(cartAnimating)return;cartAnimating=true;optionCheckout.disabled=true;
+ try{if(!reduced)await popup.animate([{transform:'translateX(0)',opacity:1},{transform:'translateX(-80px)',opacity:0}],{duration:230,easing:'ease-in'}).finished;popup.close();openBag();if(!reduced)await $('bag-dialog').animate([{transform:'translateX(80px)',opacity:0},{transform:'translateX(0)',opacity:1}],{duration:380,easing:'ease-out'}).finished;}
+ finally{cartAnimating=false;optionCheckout.disabled=false}
+};
+const stickyNav=document.querySelector('header');function updateStickyNav(){stickyNav.classList.toggle('is-scrolled',scrollY>30)}addEventListener('scroll',updateStickyNav,{passive:true});updateStickyNav();
