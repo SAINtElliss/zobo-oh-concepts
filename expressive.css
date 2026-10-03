@@ -88,3 +88,6 @@ header,header.is-scrolled{background:transparent!important;box-shadow:none!impor
 @media(max-width:700px){.hero-trio-inner{width:700px;margin-left:-350px}.hero .hero-trio img{width:260px}.hero .hero-trio img:nth-child(1){left:155px;top:50px}.hero .hero-trio img:nth-child(2){left:280px;top:10px;width:280px}.hero .hero-trio img:nth-child(3){right:15px;top:45px}.hero-cta{gap:10px;padding:16px 22px;font-size:.8rem}}
 .hero-trio-inner{margin-left:-590px}@media(max-width:700px){.hero-trio-inner{margin-left:-370px}}
 /* Align side bottle caps despite their different outward angles. */ .hero .hero-trio img:nth-child(3){top:84px}@media(max-width:700px){.hero .hero-trio img:nth-child(3){top:66px}}
+
+/* Keep the flow-positioned hero CTA centered while hovering. */
+.hero-cta:hover{transform:translateY(-4px)}
