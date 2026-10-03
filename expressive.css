@@ -87,3 +87,4 @@ header,header.is-scrolled{background:transparent!important;box-shadow:none!impor
 .hero-cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;width:auto;min-width:0;max-width:90%;padding:18px 26px;white-space:nowrap}.hero-cta .action-arrow{margin:0;flex:0 0 17px}.hero-cta>span{display:inline-flex;align-items:center}
 @media(max-width:700px){.hero-trio-inner{width:700px;margin-left:-350px}.hero .hero-trio img{width:260px}.hero .hero-trio img:nth-child(1){left:155px;top:50px}.hero .hero-trio img:nth-child(2){left:280px;top:10px;width:280px}.hero .hero-trio img:nth-child(3){right:15px;top:45px}.hero-cta{gap:10px;padding:16px 22px;font-size:.8rem}}
 .hero-trio-inner{margin-left:-590px}@media(max-width:700px){.hero-trio-inner{margin-left:-370px}}
+/* Align side bottle caps despite their different outward angles. */ .hero .hero-trio img:nth-child(3){top:84px}@media(max-width:700px){.hero .hero-trio img:nth-child(3){top:66px}}
