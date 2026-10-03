@@ -15,7 +15,7 @@ const addFeedback=document.createElement('p');addFeedback.setAttribute('role','s
 let cartAnimating=false;
 async function animateAddToBag(){
  if(cartAnimating)return;cartAnimating=true;$('option-add').disabled=true;optionCheckout.disabled=true;
- const rect=popup.getBoundingClientRect(),color=flavours[selectedFlavour].color,cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+ const rect=popup.getBoundingClientRect(),color=["#a5345c","#b4770c","#b93667"][selectedFlavour],cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
  const circle=document.createElement('div');circle.className='cart-flight';circle.style.background=color;circle.style.left=(cx-24)+'px';circle.style.top=(cy-24)+'px';
  const originalStyle=popup.getAttribute('style');const animations=[];
  try{
