@@ -44,3 +44,28 @@ $('bag-dialog').querySelector('.section-kicker').textContent='YOUR CART';
 const cartRenderWithStorage=renderBag;renderBag=function(){cartRenderWithStorage();$('open-bag').setAttribute('aria-label','Open cart, '+lines.reduce((sum,line)=>sum+line.quantity,0)+' bottles')};renderBag();
 document.querySelector('.story-bottom p').textContent='Zobo is a much-loved West African hibiscus drink. Zobo Oh! brings that familiar refreshment together with fruit and spice, made for everyday moments and good company.';
 document.querySelector('.ending .button').firstChild.textContent='Explore the flavours ';
+
+// Keep the page stationary behind every modal, including dialog transitions.
+let modalScroll=null;
+function lockModalPage(){
+ if(modalScroll!==null)return;
+ modalScroll={x:scrollX,y:scrollY};
+ document.body.style.setProperty('--modal-scroll-top',-modalScroll.y+'px');
+ document.documentElement.classList.add('modal-page-locked');
+}
+function unlockModalPage(){
+ if(document.querySelector('dialog[open]')||modalScroll===null)return;
+ const position=modalScroll;modalScroll=null;
+ document.documentElement.classList.add('modal-scroll-restoring');
+ document.documentElement.classList.remove('modal-page-locked');
+ document.body.style.removeProperty('--modal-scroll-top');
+ scrollTo({left:position.x,top:position.y,behavior:'instant'});
+ requestAnimationFrame(()=>document.documentElement.classList.remove('modal-scroll-restoring'));
+}
+document.querySelectorAll('dialog').forEach(dialog=>{
+ const show=dialog.showModal.bind(dialog);
+ const close=dialog.close.bind(dialog);
+ dialog.showModal=function(){lockModalPage();try{show();dialog.querySelector('button')?.focus({preventScroll:true})}catch(error){unlockModalPage();throw error}};
+ dialog.close=function(...args){close(...args);unlockModalPage()};
+ dialog.addEventListener('close',unlockModalPage);
+});
