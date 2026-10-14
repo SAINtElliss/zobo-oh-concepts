@@ -14,7 +14,7 @@ $('menu-cart').onclick=()=>{menu.close();openBag()};
 addEventListener('resize',()=>{if(innerWidth>700&&menu.open)menu.close()});
 
 // Store only catalogue selections, never contact or payment information.
-const cartKey='zobo-concept-cart-v1';
+const cartKey='zobo-catalogue-cart-v2';
 try{const saved=JSON.parse(localStorage.getItem(cartKey)||'[]');if(Array.isArray(saved))saved.forEach(line=>{const size=sizes.find(s=>s.ml===line.ml);if(size&&Number.isInteger(line.flavour)&&line.flavour>=0&&line.flavour<flavours.length&&Number.isInteger(line.quantity)&&line.quantity>0&&line.quantity<=50&&Number.isInteger(line.sweetness)&&line.sweetness>=1&&line.sweetness<=5)lines.push({...line,price:size.price})})}catch{}
 const originalRenderBag=renderBag;
 renderBag=function(){originalRenderBag();try{localStorage.setItem(cartKey,JSON.stringify(lines))}catch{}$('menu-cart-count').textContent='('+lines.reduce((sum,line)=>sum+line.quantity,0)+')';const explore=$('bag-items').querySelector('.button');if(explore)explore.textContent='EXPLORE THE FLAVOURS'};
