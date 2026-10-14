@@ -31,7 +31,10 @@ preview.querySelector('form').onsubmit=e=>{e.preventDefault();$('checkout-result
 
 // Give terms a consistent, unmistakable disclosure row.
 popup.querySelector('details').classList.add('terms-row');
-const allergyLink=document.createElement('button');allergyLink.className='allergy-link';allergyLink.textContent='Read the allergy information';allergyLink.onclick=()=>{popup.close();document.querySelector('.allergens details').open=true;document.querySelector('.allergens').scrollIntoView({behavior:reduced?'auto':'smooth'})};popup.querySelector('details').after(allergyLink);
+const allergyDetails=document.createElement('details');allergyDetails.className='terms-row allergy-details';
+const allergySummary=document.createElement('summary');allergySummary.textContent='Read the allergy information';allergyDetails.append(allergySummary);
+allergyDetails.append(document.querySelector('.allergens details>div').cloneNode(true));
+popup.querySelector('details').after(allergyDetails);
 const actions=document.createElement('div');actions.className='option-actions';actions.append(popup.querySelector('.option-total'),$('option-add'),optionCheckout);popup.append(actions);
 document.querySelectorAll('.button').forEach(button=>button.style.textTransform='uppercase');
 document.querySelector('.bag-label').firstChild.textContent='CART (';
