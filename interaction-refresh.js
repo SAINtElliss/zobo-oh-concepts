@@ -3,12 +3,12 @@ const motionAllowed=()=>!matchMedia('(prefers-reduced-motion: reduce)').matches;
 const animateOnce=(element,frames,options={})=>{if(element&&motionAllowed())return element.animate(frames,{duration:280,easing:'cubic-bezier(.2,.8,.2,1)',...options})};
 
 // Keep the mobile checkout focused on the next decision.
-const orderDetails=document.createElement('details');orderDetails.className='compact-order terms-row';orderDetails.open=innerWidth>600;
-const orderDetailsSummary=document.createElement('summary');orderDetailsSummary.append(iconLabel('bag','Your order'),document.createElement('strong'));
+const orderDetails=document.createElement('section');orderDetails.className='compact-order';orderDetails.setAttribute('aria-label','Your order');
+const orderDetailsSummary=document.createElement('div');orderDetailsSummary.className='order-summary-heading';orderDetailsSummary.append(iconLabel('bag','Your order'),document.createElement('strong'));
 $('checkout-summary').before(orderDetails);orderDetails.append(orderDetailsSummary,$('checkout-summary'));
 function updateCompactSummary(){const count=lines.reduce((sum,line)=>sum+line.quantity,0);orderDetailsSummary.querySelector('strong').textContent=count+' bottle'+(count===1?'':'s');}
 const compactSummaryLines=summaryLines;summaryLines=function(items){compactSummaryLines(items);updateCompactSummary()};
-const compactCheckout=checkout.onclick;checkout.onclick=async()=>{orderDetails.open=innerWidth>600;await compactCheckout();updateCompactSummary()};
+const compactCheckout=checkout.onclick;checkout.onclick=async()=>{await compactCheckout();updateCompactSummary()};
 
 // Separate client demo tools from customer-facing order information.
 const demoTools=document.createElement('details');demoTools.className='terms-row demo-tools';

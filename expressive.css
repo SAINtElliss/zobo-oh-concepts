@@ -140,3 +140,6 @@ html.modal-page-locked{overflow:hidden;overscroll-behavior:none;scroll-behavior:
 
 /* More open ingredient labels and a distinct hover treatment. */
 .ingredient-editorial .ingredient-line h3{letter-spacing:.025em}@media(hover:hover) and (pointer:fine){.ingredient-editorial .ingredient-line:hover{background:#ffecb3}}.ingredient-editorial .ingredient-line:focus-within{background:#ffecb3}
+
+/* Order summary is always visible; disclosure styling is not applied. */
+.compact-order>.order-summary-heading{display:flex;align-items:center;gap:12px;padding:14px 0;border-block:1px solid #49062755;font-size:.9rem;font-weight:600}.order-summary-heading>strong{margin-left:auto;font-size:.8rem}.order-summary-heading .visual-label{transform:none!important}.order-summary-heading .graphic-icon{transform:none!important}.compact-order #checkout-summary{border-top:0}
