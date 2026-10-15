@@ -20,7 +20,7 @@ let lastRoadmapState=null;
 const animatedRenderOrder=renderOrder;renderOrder=function(){
  const was=lastRoadmapState;animatedRenderOrder();lastRoadmapState=demoOrder.status;
  demoTools.hidden=!$('order-actions').children.length;
- const finished=demoOrder.status==='completed';journeyDetails.classList.toggle('journey-complete',finished);journeyDetails.open=!finished;
+ const finished=demoOrder.status==='completed';journeyDetails.classList.remove('journey-complete');journeyDetails.open=true;$('order-preview').classList.toggle('order-completed',finished);if(finished){$('order-status').replaceChildren(graphicIcon('check'),document.createTextNode('Completed'));}
  if(was!==demoOrder.status){
   const marker=$('order-timeline').querySelector('[aria-current=step] .roadmap-marker');
   if(motionAllowed())marker?.closest('.roadmap-step').classList.add('connector-arrived');
