@@ -72,3 +72,14 @@ document.querySelectorAll('dialog').forEach(dialog=>{
  dialog.close=function(...args){close(...args);unlockModalPage()};
  dialog.addEventListener('close',unlockModalPage);
 });
+// Slide the drawer out before releasing its modal and page-scroll lock.
+const cartDrawer=$('bag-dialog'),closeCartDrawer=cartDrawer.close.bind(cartDrawer);
+let drawerClosing=false;
+cartDrawer.close=function(...args){
+ if(!cartDrawer.open||drawerClosing)return;
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){closeCartDrawer(...args);return}
+ drawerClosing=true;
+ const exit=cartDrawer.animate([{transform:'translateX(0)',opacity:1},{transform:'translateX(100%)',opacity:0}],{duration:230,easing:'ease-in',fill:'forwards'});
+ return exit.finished.catch(()=>{}).finally(()=>{closeCartDrawer(...args);exit.cancel();drawerClosing=false});
+};
+cartDrawer.addEventListener('cancel',event=>{event.preventDefault();cartDrawer.close()});

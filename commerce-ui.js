@@ -27,8 +27,8 @@ function refreshQuote(){
 preview.querySelectorAll('[name=fulfilment],#delivery-zone').forEach(input=>input.addEventListener('change',refreshQuote));
 checkout.onclick=async()=>{
  if(!lines.length||lines.some(line=>!shopConfig.availability[line.flavour]))return;
- if(!reduced)await $('bag-dialog').animate([{opacity:1,transform:'translateX(0)'},{opacity:0,transform:'translateX(-35px)'}],{duration:180}).finished;
- $('bag-dialog').close();summaryLines(lines.map(line=>({...line,unitCents:Math.round(sizes.find(size=>size.ml===line.ml).price*100)})));$('fulfilment-form').hidden=false;$('order-preview').hidden=true;demoOrder=null;refreshQuote();preview.showModal();if(!reduced)preview.animate([{opacity:0,transform:'translateX(35px)'},{opacity:1,transform:'translateX(0)'}],{duration:250});
+ 
+ await $('bag-dialog').close();summaryLines(lines.map(line=>({...line,unitCents:Math.round(sizes.find(size=>size.ml===line.ml).price*100)})));$('fulfilment-form').hidden=false;$('order-preview').hidden=true;demoOrder=null;refreshQuote();preview.showModal();if(!reduced)preview.animate([{opacity:0,transform:'translateX(35px)'},{opacity:1,transform:'translateX(0)'}],{duration:250});
 };
 const statusLabels={awaiting_payment:'Awaiting payment',payment_failed:'Payment failed — no payment taken',paid:'Paid',preparing:'Preparing',ready:'Ready for pickup',dispatched:'Dispatched',completed:'Completed',cancelled:'Cancelled',refund_pending:'Refund requested',refunded:'Refunded'};
 function orderAction(label,next){const button=document.createElement('button');button.type='button';button.className='button';button.textContent=label;button.onclick=()=>{try{demoOrder=commerce.transition(demoOrder,next);renderOrder()}catch(error){$('order-feedback').textContent=error.message}};$('order-actions').append(button)}
