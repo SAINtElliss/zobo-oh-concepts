@@ -11,6 +11,7 @@ Object.assign(iconPaths,{
  drop:'M12 2S5 11 5 15a7 7 0 0 0 14 0c0-4-7-13-7-13z',
  leaf:'M3 21l15-15M4 17C0 4 11 2 21 3c1 11-4 19-13 16M9 15v-5M13 11h5',
  pineapple:'M8 8l-3-5 6 3 1-5 2 5 5-3-3 5M8 8h8l3 8-3 6H8l-3-6zM7 11l10 8M6 16l8 6M17 11L7 19M18 16l-8 6',
+ ginger:'M5 18c-3-1-3-5 0-6l3-1-1-4c0-3 4-4 5-1l1 3 3-3c2-2 5 1 3 3l-3 4 4 1c3 1 2 5-1 5l-5-1-3 4c-2 2-6 0-4-3zM8 12l3 2M13 9l2 3M14 17l-3 1',
  spice:'M5 21L17 3l4 3L9 23M5 21l4 2M4 8h6M7 5v6',
  flower:'M12 8C2-2 0 12 8 12c-8 3 1 13 4 4 3 9 12-1 4-4 8 0 6-14-4-4zM12 9v6M9 12h6',
  cubes:'M3 8l6-4 6 4-6 4zM3 8v7l6 4 6-4V8M9 12v7M15 12l6 3v6l-6 2-4-3',
@@ -70,7 +71,7 @@ const oldRefreshQuote=refreshQuote;refreshQuote=function(){oldRefreshQuote();con
 preview.querySelectorAll('[name=fulfilment],#delivery-zone').forEach(input=>input.addEventListener('change',()=>refreshQuote()));
 
 // Ingredient pictograms convey the subject; names and full recipe tags stay readable.
-document.querySelectorAll('.ingredient-symbol').forEach((symbol,index)=>symbol.replaceChildren(graphicIcon(['flower','pineapple','spice','spice','leaf','cubes'][index]||'leaf')));
+document.querySelectorAll('.ingredient-symbol').forEach((symbol,index)=>symbol.replaceChildren(graphicIcon(['flower','pineapple','ginger','spice','leaf','cubes'][index]||'leaf')));
 document.querySelector('.ingredients-heading p').textContent='Hibiscus, fruit & spice. Explore what goes into each flavour.';
 document.querySelector('.nutrition>div>p').textContent='Pick a nutrient. Match it to a category.';
 document.querySelector('.game>small').textContent='Just for fun — not a product nutrition label.';
