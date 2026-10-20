@@ -21,7 +21,10 @@
   if(subtotalCents<service.minimumCents)throw Error(`Minimum for ${method}: CAD $${(service.minimumCents/100).toFixed(2)} before tax.`);
   const zone=method==='delivery'?service.zones.find(z=>z.id===zoneId):null;
   if(method==='delivery'&&!zone)throw Error('Choose a supported delivery area.');
-  const feeCents=method==='delivery'?zone.feeCents:service.feeCents;
+  if(zone?.quoteRequired)throw Error('Delivery over 20–30 km needs a quote. Email zobo_oh@yahoo.com before ordering, or choose pickup.');
+  let feeCents=method==='delivery'?zone.feeCents:service.feeCents;
+  if(!Number.isInteger(feeCents)||feeCents<0)throw Error('Delivery pricing needs confirmation. Please contact us.');
+  if(zone&&Number.isInteger(zone.freeOverCents)&&subtotalCents>zone.freeOverCents)feeCents=0;
   const taxable=subtotalCents+(config.taxDelivery?feeCents:0);
   const taxCents=Math.round(taxable*config.taxBasisPoints/10000);
   return {items,subtotalCents,feeCents,taxCents,totalCents:subtotalCents+feeCents+taxCents,method,zone:zone?.name||null,preparation:service.preparation};

@@ -60,7 +60,7 @@ renderOrder=function(){
 };
 
 // Keep one clear demo notice rather than several repeated paragraphs.
-const banner=preview.querySelector('.preview-banner');banner.replaceChildren(iconLabel('info','Demo only — example fees, tax & policies. No payment.'));
+const banner=preview.querySelector('.preview-banner');banner.replaceChildren(iconLabel('info','Demo only — example tax, minimums & preparation times. No payment.'));
 preview.querySelector('#order-preview>.option-note').textContent='Preview controls only. No payment or order is sent.';
 document.querySelector('#bag-dialog>.demo-notice').textContent='Demo only. No payment or order is sent.';
 popup.querySelector('.option-note').textContent='CAD · Delivery and tax shown at checkout.';

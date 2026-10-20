@@ -1,8 +1,8 @@
-// PLACEHOLDERS ONLY. Confirm every business value before accepting real orders.
-window.ZOBO_COMMERCE={
- demo:true,currency:'CAD',taxBasisPoints:500,taxDelivery:true,
- pickup:{enabled:true,address:'Pickup address to be confirmed',feeCents:0,minimumCents:700,preparation:'Example: ready in 1–2 business days'},
- delivery:{enabled:true,minimumCents:1400,preparation:'Example: delivery in 2–3 business days',zones:[{id:'local',name:'Example local delivery area',description:'Service boundaries to be confirmed',feeCents:500}]},
- availability:[true,true,true],
- policies:{cancellation:'Example policy: cancellation can be requested before preparation starts.',refund:'Example policy: refunds can be requested after cancellation or for an issue with an order. Final eligibility and timing will be confirmed.'}
-};
+// Confirmed delivery/policies; tax, minimums and preparation times remain examples.
+window.ZOBO_COMMERCE={demo:true,currency:'CAD',taxBasisPoints:500,taxDelivery:true,
+pickup:{enabled:true,address:'Sherway Plaza / SmartCentres Sherway, 1–77 Sherway Drive, Etobicoke (Home Depot / Walmart plaza across from Sherway).',feeCents:0,minimumCents:700,preparation:'Example: ready in 1–2 business days'},
+delivery:{enabled:true,minimumCents:1400,preparation:'Example: delivery in 2–3 business days',areas:'Delivery up to 30 km from Sherway, for eligible addresses in Etobicoke, Mississauga, Downtown Toronto, Old Toronto and Scarborough. Distance and address eligibility require confirmation.',zones:[
+{id:'local',name:'Within 10 km',description:'From Sherway: $5 delivery, free on merchandise totals over $50 before tax.',feeCents:500,freeOverCents:5000},
+{id:'nearby',name:'Over 10–20 km',description:'From Sherway: $8.50 delivery.',feeCents:850},
+{id:'quote',name:'Over 20–30 km',description:'Email zobo_oh@yahoo.com for a delivery quote before ordering.',feeCents:null,quoteRequired:true}]},availability:[true,true,true],
+policies:{cancellation:'Standard orders: cancellations are accepted at least 24 hours before scheduled pickup or local delivery for a full refund. Same-day / late cancellations: our beverages are freshly brewed in small batches, so orders cancelled with less than 24 hours’ notice cannot be refunded.',refund:'Due to the perishable nature of our products, all sales are final once picked up or delivered. For damaged bottles, missing items or another issue, email zobo_oh@yahoo.com within 24 hours of receiving your order, with photos, for a replacement or store credit.'}};
