@@ -182,3 +182,6 @@ footer{grid-template-columns:80px minmax(0,1fr) auto;gap:24px 32px}footer>div{gr
 
 /* Shared fan backdrop blends only the selected flavours. */
 .cart-bundle-art,.checkout-bundle-lineup{isolation:isolate}.cart-bundle-art:before,.checkout-bundle-lineup:before{content:'';position:absolute;z-index:-1;left:50%;top:15px;width:90px;height:90px;transform:translateX(-50%);border-radius:50%;background:var(--fan-colors)}@media(max-width:700px){.cart-bundle-art:before{width:76px;height:76px}}
+
+/* Open upper mask with a circular lower edge: bottle bases stay inside the disc. */
+.cart-bundle-art,.checkout-bundle-lineup{width:90px;height:112px;clip-path:polygon(-70% -100%,170% -100%,170% 60%,100% 60%,96.2% 75.4%,85.4% 88.3%,69.1% 97%,50% 100%,30.9% 97%,14.6% 88.3%,3.8% 75.4%,0% 60%,-70% 60%)}.cart-bundle-art:before,.checkout-bundle-lineup:before{top:22px;width:90px;height:90px}.cart-bundle-art>span,.checkout-bundle-lineup>span{top:-8px;width:70px;height:135px;transform-origin:50% 90%}#bag-dialog .cart-bundle-art img,.checkout-bundle-lineup img{height:135px;width:70px;max-width:none}@media(max-width:700px){.cart-bundle-art{width:76px;height:95px}.cart-bundle-art:before{width:76px;height:76px;top:19px}.cart-bundle-art>span{width:60px;height:120px}#bag-dialog .cart-bundle-art img{width:60px;height:120px}}
