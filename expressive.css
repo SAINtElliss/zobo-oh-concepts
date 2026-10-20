@@ -158,3 +158,6 @@ footer{grid-template-columns:80px minmax(0,1fr) auto;gap:24px 32px}footer>div{gr
 @keyframes bundle-dialog-arrive{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}@keyframes bundle-bottle-arrive{from{opacity:0;transform:translateY(32px) scale(.8)}to{opacity:1;transform:none}}@keyframes bundle-card-arrive{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes bundle-bottle-float{0%,100%{transform:rotate(var(--lean)) translateY(0)}50%{transform:rotate(var(--lean)) translateY(-4px)}}
 @media(max-width:450px){.bundle-bottle{grid-template-columns:52px minmax(0,1fr);gap:10px}.bundle-bottle-art{grid-row:1/3;width:50px;height:90px}.bundle-bottle-art img{width:50px;height:90px}.bundle-bottle-art:before{width:50px;height:50px}.bundle-bottle label{grid-column:2}.bundle-lineup-bottle img{height:110px}#bundle-lineup{min-height:130px;padding-bottom:14px}}
 @media(prefers-reduced-motion:reduce){#bundle-options[open],.bundle-bottle,.bundle-lineup-bottle,.bundle-lineup-bottle img{animation:none}.bundle-bottle,.bundle-bottle-art img{transition:none}.bundle-bottle:hover .bundle-bottle-art img{transform:none}}
+
+/* Use the fieldset border so its native legend cutout stays clear on focus. */
+.bundle-bottle:focus-within{box-shadow:none;border-color:var(--plum)}
